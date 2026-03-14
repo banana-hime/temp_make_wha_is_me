@@ -31,7 +31,7 @@ function Invoke-JulesForRange {
         }
         requirePlanApproval = $false
         automationMode      = "AUTO_CREATE_PR"
-        title               = "パレティーナの日記を書く。"
+        title               = "バナナの日記を書く。"
     } | ConvertTo-Json -Depth 10
 
     $session = Invoke-RestMethod -Uri "$BASE_URL/sessions" -Method Post -Headers $HEADERS -Body $body
