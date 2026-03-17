@@ -6,6 +6,21 @@ Param(
     [switch]$Loop
 )
 
+# 起動直後に 17*.md のうち最新10件以外を削除
+try {
+    $mdFiles = Get-ChildItem -Path $PSScriptRoot -Filter "17*.md" -File | Sort-Object Name -Descending
+    if ($mdFiles.Count -gt 10) {
+        $toDelete = $mdFiles | Select-Object -Skip 10
+        foreach ($f in $toDelete) {
+            Write-Host "🧹 削除: $($f.Name)" -ForegroundColor DarkGray
+            Remove-Item -LiteralPath $f.FullName -Force -ErrorAction Stop
+        }
+    }
+}
+catch {
+    Write-Warning "⚠️ 古い .md ファイルの削除に失敗しました: $($_.Exception.Message)"
+}
+
 # --- 設定 ---
 $API_KEY = $env:JULES_API_KEY
 $HEADERS = @{
